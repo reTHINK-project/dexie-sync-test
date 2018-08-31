@@ -1,0 +1,26 @@
+{
+    "name": "syncableTest",
+    "preferGlobal": true,
+    "version": "0.0.1",
+    "author": "Paulo Chainho <paulo-g-chainho@alticelabs.com>",
+    "description": "Dexie Syncable Experiments",
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.10"
+    },
+    "scripts": {
+        "build": "webpack",
+        "build:prod": "webpack -p",
+        "watch": "webpack --watch"
+    },
+    "dependencies": {
+        "dexie": "^2.0.4",
+        "dexie-observable": "^1.0.0-beta.4",
+        "dexie-syncable": "^1.0.0-beta.4",
+        "sync-client": "^1.0.0-beta.11"
+    },
+    "devDependencies": {
+        "webpack": "^4.17.1",
+        "webpack-cli": "^3.1.0"
+    }
+}
