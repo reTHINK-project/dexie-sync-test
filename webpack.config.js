@@ -4,11 +4,12 @@ const config = {
   context: path.resolve(__dirname, 'src'),  
   entry: {
     // removing 'src' directory from entry point, since 'context' is taking care of that
-    app: './syncableTest.js'
+    syncableTest1: './syncableTest1.js',
+    syncableTest2: './syncableTest2.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'syncableTest.js'
+    filename: '[name].js'
   },
   mode: 'development'  
 }

@@ -11,9 +11,8 @@ function syncTest() {
     const versions =    [ {
         version: 1,
         stores: {
-            friends: "$$oid,name,shoeSize",
-            pets: "$$oid,name,'kind'"
-            }
+            test: '++id, name, age'
+                }
       }
   ];
      
@@ -44,12 +43,9 @@ function syncTest() {
     });
     
     console.log ("Connected to sync server!! ");
-    syncClient.transaction('rw', syncClient.friends, function (friends) {
+    syncClient.transaction('rw', syncClient.test, function () {
 //    db.transaction('rw', db.friends, function (friends) {
-    friends.add({name: "Arne", shoeSize: 47});
-        friends.where('shoeSize').above(40).each(function (friend) {
-            console.log("Friend with shoeSize over 40: " + friend.name);
-        });
+    syncClient.test.put({name: 'paulo', age: 51});
     });
 
 }
