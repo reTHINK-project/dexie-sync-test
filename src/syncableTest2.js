@@ -9,9 +9,9 @@ function syncTest() {
 
     const databaseName = 'testDB'; // The name for the indexedDB database
     const versions =    [ {
-        version: 1,
+        version: 2,
         stores: {
-            test: '++id, name, age'
+            test: 'id,profile'
                 }
       }
   ];
@@ -45,8 +45,10 @@ function syncTest() {
     console.log ("Connected to sync server!! ");
     syncClient.transaction('rw', syncClient.test, function () {
 //    db.transaction('rw', db.friends, function (friends) {
-    syncClient.test.put({name: 'dinis', age: 9});
+//    syncClient.test.where('id').equals(1).then((test)=> {
+        syncClient.test.put({id:1,  profile: {name: 'dinis', age:9} });
     });
+//    });
 
 }
 
