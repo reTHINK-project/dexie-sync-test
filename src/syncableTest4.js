@@ -7,23 +7,21 @@ import SyncClient from 'sync-client';
 function syncTest() {
     console.log ("Starting Dexie!! ");
 
-    const databaseName = 'syncTestDB'; // The name for the indexedDB database
+    const databaseName = 'syncTestDB3'; // The name for the indexedDB database
     const versions =    [ {
         version: 2,
         stores: {
-            test: 'id'
+            test1: 'id'
                 }
               }];
+    let options = { table: 'test1'};
      
     const syncClient = new SyncClient(databaseName, versions);    
-
-    let options = { table: 'test'};
 
     console.log ("Connecting to sync server!! ");
     
 //    db.syncable.connect ("websocket", "http://localhost:3000").then(function () {
     syncClient.connect ("http://localhost:3000", options).then(function () {
-        console.log ("Connected to sync server!! ");
 
 
     }, function (error) {
@@ -39,13 +37,14 @@ function syncTest() {
             console.log ("Sync Status changed: " + Dexie.Syncable.StatusTexts[newStatus]);
     });
     
-    syncClient.transaction('rw', syncClient.test, function () {
-//    syncClient.test.put({id:1, profile: {name: 'paulo', age:50}}).then(()=>{
-        syncClient.test.put({id:1, profile: {name: 'paulo', age:51}}).then(()=>{
-            console.log ('test updated ');
+    console.log ("Connected to sync server!! ");
+    syncClient.transaction('rw', syncClient.test1, function () {
+        syncClient.test1.put({id:1, profile: {name: 'andre', age:6}}).then(() => {
+          console.log ('test1 updated ');
+
         });
-    });
 //    });
+    });
 
 }
 

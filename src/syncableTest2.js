@@ -7,11 +7,11 @@ import SyncClient from 'sync-client';
 function syncTest() {
     console.log ("Starting Dexie!! ");
 
-    const databaseName = 'testDB'; // The name for the indexedDB database
+    const databaseName = 'syncTestDB'; // The name for the indexedDB database
     const versions =    [ {
         version: 2,
         stores: {
-            test: 'id,profile'
+            test: 'id'
                 }
       }
   ];
@@ -23,12 +23,18 @@ function syncTest() {
         friends: "$$oid,name,shoeSize",
         pets: "$$oid,name,'kind'"
     });*/
+    let options = { table: 'test'};
+
     console.log ("Connecting to sync server!! ");
     
 //    db.syncable.connect ("websocket", "http://localhost:3000").then(function () {
-    syncClient.connect ("http://localhost:3000").then(function () {
+    syncClient.connect ("http://localhost:3000", options).then(function () {
 
-
+        console.log ("Connected to sync server!! ");
+        syncClient.transaction('rw', syncClient.test, function () {
+            syncClient.test.put({id:1, profile: {name: 'dinis', age:9} });
+        });
+    
     }, function (error) {
         console.error("Connection error: " + error);
 
@@ -42,13 +48,6 @@ function syncTest() {
             console.log ("Sync Status changed: " + Dexie.Syncable.StatusTexts[newStatus]);
     });
     
-    console.log ("Connected to sync server!! ");
-    syncClient.transaction('rw', syncClient.test, function () {
-//    db.transaction('rw', db.friends, function (friends) {
-//    syncClient.test.where('id').equals(1).then((test)=> {
-        syncClient.test.put({id:1,  profile: {name: 'dinis', age:9} });
-    });
-//    });
 
 }
 
