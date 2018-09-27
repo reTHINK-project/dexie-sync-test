@@ -25,6 +25,18 @@ function syncTest() {
     syncClient.connect ("http://localhost:3000", options).then(function () {
         console.log ("Connected to sync server!! ");
 
+        syncClient.transaction('rw', syncClient.test, function () {
+            //    syncClient.test.put({id:1, profile: {name: 'paulo', age:50}}).then(()=>{
+                    syncClient.test.put({id:1, profile: {name: 'paulo', age:51}}).then(()=>{
+                        console.log ('test updated ');
+            
+                        syncClient.disconnect("http://localhost:3000").then(()=>{
+                            console.log ('disconnected ');
+                        })
+            
+                    });
+                });
+            
         syncClient._syncNodes.get({type: 'remote'}).then((status)=> {
             console.log('revision: ', status);
     
@@ -43,17 +55,6 @@ function syncTest() {
             console.log ("Sync Status changed: " + Dexie.Syncable.StatusTexts[newStatus]);
     });
     
-    syncClient.transaction('rw', syncClient.test, function () {
-//    syncClient.test.put({id:1, profile: {name: 'paulo', age:50}}).then(()=>{
-        syncClient.test.put({id:1, profile: {name: 'paulo', age:51}}).then(()=>{
-            console.log ('test updated ');
-
-            syncClient.disconnect("http://localhost:3000").then(()=>{
-                console.log ('disconnected ');
-            })
-
-        });
-    });
 
 
 //    });
