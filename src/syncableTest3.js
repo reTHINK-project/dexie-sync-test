@@ -2,7 +2,7 @@ import Dexie from 'dexie';
 import 'dexie-observable';
 import 'dexie-syncable';
 
-import SyncClient from 'sync-client';
+import SyncClient from 'sync-client/dist/sync-client';
 
 function syncTest() {
     console.log ("Starting Dexie!! ");

@@ -2,4 +2,5 @@
 /.idea
 /dist
 /coverage
+/sync-server
 npm-debug.log

@@ -2,7 +2,7 @@ import Dexie from 'dexie';
 import 'dexie-observable';
 import 'dexie-syncable';
 
-import SyncClient from 'sync-client';
+import SyncClient from 'sync-client/dist/sync-client';
 
 function syncTest() {
     console.log ("Starting Dexie!! ");
@@ -11,7 +11,7 @@ function syncTest() {
     const versions =    [ {
         version: 2,
         stores: {
-            test: 'id'
+            test: 'id,name'
                 }
               }];
      
@@ -25,7 +25,11 @@ function syncTest() {
     syncClient.connect ("http://localhost:3000", options).then(function () {
         console.log ("Connected to sync server!! ");
 
-
+        syncClient._syncNodes.get({type: 'remote'}).then((status)=> {
+            console.log('revision: ', status);
+    
+        });
+    
     }, function (error) {
         console.error("Connection error: " + error);
 
@@ -43,8 +47,15 @@ function syncTest() {
 //    syncClient.test.put({id:1, profile: {name: 'paulo', age:50}}).then(()=>{
         syncClient.test.put({id:1, profile: {name: 'paulo', age:51}}).then(()=>{
             console.log ('test updated ');
+
+            syncClient.disconnect("http://localhost:3000").then(()=>{
+                console.log ('disconnected ');
+            })
+
         });
     });
+
+
 //    });
 
 }
