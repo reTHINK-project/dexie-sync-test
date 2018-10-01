@@ -17,7 +17,26 @@ function syncTest() {
      
     const syncClient = new SyncClient(databaseName, versions);    
 
-    let options = { table: 'test'};
+    let options = { table: 'test', pollInterval: 500};
+
+    function printRevision () {
+        syncClient._syncNodes.get({type: 'remote'}).then((status)=> {
+            console.log('revision: ', status);
+        });
+    }
+
+    function save(data) {
+        return new Promise ((resolve) => {
+            syncClient.transaction('rw', syncClient.test, function () {
+                //    syncClient.test.put({id:1, profile: {name: 'paulo', age:50}}).then(()=>{
+                        syncClient.test.put(data).then(()=>{
+                            console.log ('test updated ', data);
+                            resolve();
+                        });
+                    });
+    
+        })
+    }
 
     console.log ("Connecting to sync server!! ");
     
@@ -25,21 +44,14 @@ function syncTest() {
     syncClient.connect ("http://localhost:3000", options).then(function () {
         console.log ("Connected to sync server!! ");
 
-        syncClient.transaction('rw', syncClient.test, function () {
-            //    syncClient.test.put({id:1, profile: {name: 'paulo', age:50}}).then(()=>{
-                    syncClient.test.put({id:1, profile: {name: 'paulo', age:51}}).then(()=>{
-                        console.log ('test updated ');
-            
-                        syncClient.disconnect("http://localhost:3000").then(()=>{
-                            console.log ('disconnected ');
-                        })
-            
-                    });
-                });
-            
-        syncClient._syncNodes.get({type: 'remote'}).then((status)=> {
-            console.log('revision: ', status);
-    
+        save({id:1, isReporter: true, profile: {name: 'paulo', age:51}}).then(()=>{
+            printRevision();
+            save({id:2, profile: {name: 'andre', age:6}}).then(()=>{
+                printRevision();
+/*                syncClient.disconnect("http://localhost:3000").then(()=>{
+                    console.log ('disconnected ');
+                });*/
+            });
         });
     
     }, function (error) {

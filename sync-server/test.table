@@ -1,1 +1,2 @@
-{"id":1,"profile":{"name":"paulo","age":51},"_id":1}
+{"id":2,"profile":{"name":"andre","age":6},"_id":2}
+{"id":1,"isReporter":true,"profile":{"name":"paulo","age":51},"_id":1}

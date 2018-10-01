@@ -8,6 +8,7 @@ const config = {
     syncableTest2: './syncableTest2.js',
     syncableTest3: './syncableTest3.js',
     syncableTest4: './syncableTest4.js',
+    syncableTest5: './syncableTest5.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
